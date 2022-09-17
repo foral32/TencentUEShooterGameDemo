@@ -1,0 +1,2 @@
+F:\unreal\studying\tencentCourse\ShooterGame\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RD\Definitions.h
+F:\unreal\studying\tencentCourse\ShooterGame\Plugins\Developer\RiderLink\Source\RD\src\rd_gen_cpp\src\RdTextBuffer.h
