@@ -191,6 +191,7 @@ void AShooterAIController::ShootEnemy()
 
 	bool bCanShoot = false;
 	AShooterCharacter* Enemy = GetEnemy();
+
 	if ( Enemy && ( Enemy->IsAlive() )&& (MyWeapon->GetCurrentAmmo() > 0) && ( MyWeapon->CanFire() == true ) )
 	{
 		if (LineOfSightTo(Enemy, MyBot->GetActorLocation()))

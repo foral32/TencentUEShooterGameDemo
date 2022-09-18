@@ -35,6 +35,7 @@ public:
 
 	void CheckAmmo(const class AShooterWeapon* CurrentWeapon);
 
+	UFUNCTION(BlueprintCallable)
 	void SetEnemy(class APawn* InPawn);
 
 	class AShooterCharacter* GetEnemy() const;
