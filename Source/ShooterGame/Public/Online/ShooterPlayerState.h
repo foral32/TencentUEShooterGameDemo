@@ -33,6 +33,7 @@ class AShooterPlayerState : public APlayerState
 	 */
 	void SetTeamNum(int32 NewTeamNumber);
 
+	UFUNCTION(BlueprintCallable)
 	/** player killed someone */
 	void ScoreKill(AShooterPlayerState* Victim, int32 Points);
 

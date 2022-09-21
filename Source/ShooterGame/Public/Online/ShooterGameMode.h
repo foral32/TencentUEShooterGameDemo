@@ -95,11 +95,11 @@ protected:
 	int32 TimeBetweenMatches;
 
 	/** score for kill */
-	UPROPERTY(config)
+	UPROPERTY(BlueprintReadOnly,config,Category="Score")
 	int32 KillScore;
 
 	/** score for death */
-	UPROPERTY(config)
+	UPROPERTY(BlueprintReadOnly,config,Category = "Score")
 	int32 DeathScore;
 
 	/** scale for self instigated damage */
