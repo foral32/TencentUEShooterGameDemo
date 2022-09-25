@@ -75,6 +75,10 @@ protected:
 	/** Delegate called when user confirms confirmation dialog to exit to main menu */
 	void OnConfirmExitToMain();		
 
+	//++[civ][Gao Jiacheng]add ui set menu
+	void OnClickFreeDrag();
+	//--[civ]
+
 	/** Plays sound and calls Quit */
 	void OnUIQuit();
 

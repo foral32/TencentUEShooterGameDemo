@@ -54,7 +54,11 @@ void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
 		TSharedPtr<FShooterMenuItem> MainMenuRoot = FShooterMenuItem::CreateRoot();
 		MainMenuItem = MenuHelper::AddMenuItem(MainMenuRoot,LOCTEXT("Main Menu", "MAIN MENU"));
 		MenuHelper::AddMenuItemSP(MainMenuItem,LOCTEXT("No", "NO"), this, &FShooterIngameMenu::OnCancelExitToMain);
-		MenuHelper::AddMenuItemSP(MainMenuItem,LOCTEXT("Yes", "YES"), this, &FShooterIngameMenu::OnConfirmExitToMain);		
+		MenuHelper::AddMenuItemSP(MainMenuItem,LOCTEXT("Yes", "YES"), this, &FShooterIngameMenu::OnConfirmExitToMain);	
+
+		//++[civ][Gao Jiacheng]
+		MenuHelper::AddMenuItemSP(RootMenuItem, LOCTEXT("Free Drag", "FREE DRAG"), this, &FShooterIngameMenu::OnCancelExitToMain);
+		//--[civ]
 
 		ShooterOptions = MakeShareable(new FShooterOptions());
 		ShooterOptions->Construct(PlayerOwner);
@@ -279,6 +283,11 @@ void FShooterIngameMenu::OnConfirmExitToMain()
 		GameInstance->GotoState(ShooterGameInstanceState::MainMenu);
 	}
 }
+
+void FShooterIngameMenu::OnClickFreeDrag()
+{
+}
+
 
 void FShooterIngameMenu::OnUIQuit()
 {
