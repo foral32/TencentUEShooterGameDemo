@@ -19,7 +19,7 @@
 #endif
 
 #if !defined(FRIENDS_IN_INGAME_MENU)
-	#define FRIENDS_IN_INGAME_MENU 1
+#define FRIENDS_IN_INGAME_MENU 1
 #endif
 
 void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
@@ -31,7 +31,7 @@ void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
 	{
 		return;
 	}
-	
+
 	//todo:  don't create ingame menus for remote players.
 	const UShooterGameInstance* GameInstance = nullptr;
 	if (PlayerOwner)
@@ -44,7 +44,7 @@ void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
 		SAssignNew(GameMenuWidget, SShooterMenuWidget)
 			.PlayerOwner(MakeWeakObjectPtr(PlayerOwner))
 			.Cursor(EMouseCursor::Default)
-			.IsGameMenu(true);			
+			.IsGameMenu(true);
 
 
 		int32 const OwnerUserIndex = GetOwnerUserIndex();
@@ -52,9 +52,9 @@ void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
 		// setup the exit to main menu submenu.  We wanted a confirmation to avoid a potential TRC violation.
 		// fixes TTP: 322267
 		TSharedPtr<FShooterMenuItem> MainMenuRoot = FShooterMenuItem::CreateRoot();
-		MainMenuItem = MenuHelper::AddMenuItem(MainMenuRoot,LOCTEXT("Main Menu", "MAIN MENU"));
-		MenuHelper::AddMenuItemSP(MainMenuItem,LOCTEXT("No", "NO"), this, &FShooterIngameMenu::OnCancelExitToMain);
-		MenuHelper::AddMenuItemSP(MainMenuItem,LOCTEXT("Yes", "YES"), this, &FShooterIngameMenu::OnConfirmExitToMain);	
+		MainMenuItem = MenuHelper::AddMenuItem(MainMenuRoot, LOCTEXT("Main Menu", "MAIN MENU"));
+		MenuHelper::AddMenuItemSP(MainMenuItem, LOCTEXT("No", "NO"), this, &FShooterIngameMenu::OnCancelExitToMain);
+		MenuHelper::AddMenuItemSP(MainMenuItem, LOCTEXT("Yes", "YES"), this, &FShooterIngameMenu::OnConfirmExitToMain);
 
 		//++[civ][Gao Jiacheng]
 		MenuHelper::AddMenuItemSP(RootMenuItem, LOCTEXT("Free Drag", "FREE DRAG"), this, &FShooterIngameMenu::OnCancelExitToMain);
@@ -89,7 +89,7 @@ void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
 
 #if SHOOTER_CONSOLE_UI && INVITE_ONLINE_GAME_ENABLED			
 			TSharedPtr<FShooterMenuItem> ShowInvitesItem = MenuHelper::AddMenuItem(RootMenuItem, LOCTEXT("Invite Players", "INVITE PLAYERS (via System UI)"));
-			ShowInvitesItem->OnConfirmMenuItem.BindRaw(this, &FShooterIngameMenu::OnShowInviteUI);		
+			ShowInvitesItem->OnConfirmMenuItem.BindRaw(this, &FShooterIngameMenu::OnShowInviteUI);
 #endif
 		}
 #endif
@@ -97,18 +97,18 @@ void FShooterIngameMenu::Construct(ULocalPlayer* _PlayerOwner)
 		if (FSlateApplication::Get().SupportsSystemHelp())
 		{
 			TSharedPtr<FShooterMenuItem> HelpSubMenu = MenuHelper::AddMenuItem(RootMenuItem, LOCTEXT("Help", "HELP"));
-			HelpSubMenu->OnConfirmMenuItem.BindStatic([](){ FSlateApplication::Get().ShowSystemHelp(); });
+			HelpSubMenu->OnConfirmMenuItem.BindStatic([]() { FSlateApplication::Get().ShowSystemHelp(); });
 		}
 
 		MenuHelper::AddExistingMenuItem(RootMenuItem, MainMenuItem.ToSharedRef());
-				
+
 #if !SHOOTER_CONSOLE_UI
 		MenuHelper::AddMenuItemSP(RootMenuItem, LOCTEXT("Quit", "QUIT"), this, &FShooterIngameMenu::OnUIQuit);
 #endif
 
 		GameMenuWidget->MainMenu = GameMenuWidget->CurrentMenu = RootMenuItem->SubMenu;
-		GameMenuWidget->OnMenuHidden.BindSP(this,&FShooterIngameMenu::DetachGameMenu);
-		GameMenuWidget->OnToggleMenu.BindSP(this,&FShooterIngameMenu::ToggleGameMenu);
+		GameMenuWidget->OnMenuHidden.BindSP(this, &FShooterIngameMenu::DetachGameMenu);
+		GameMenuWidget->OnToggleMenu.BindSP(this, &FShooterIngameMenu::ToggleGameMenu);
 		GameMenuWidget->OnGoBack.BindSP(this, &FShooterIngameMenu::OnMenuGoBack);
 	}
 }
@@ -163,9 +163,9 @@ void FShooterIngameMenu::DetachGameMenu()
 
 		// If the game is over enable the scoreboard
 		AShooterHUD* const ShooterHUD = PCOwner->GetShooterHUD();
-		if( ( ShooterHUD != NULL ) && ( ShooterHUD->IsMatchOver() == true ) && ( PCOwner->IsPrimaryPlayer() == true ) )
+		if ((ShooterHUD != NULL) && (ShooterHUD->IsMatchOver() == true) && (PCOwner->IsPrimaryPlayer() == true))
 		{
-			ShooterHUD->ShowScoreboard( true, true );
+			ShooterHUD->ShowScoreboard(true, true);
 		}
 	}
 }
@@ -193,7 +193,7 @@ void FShooterIngameMenu::ToggleGameMenu()
 		GameMenuWidget->MenuGoBack();
 		return;
 	}
-	
+
 	AShooterPlayerController* const PCOwner = PlayerOwner ? Cast<AShooterPlayerController>(PlayerOwner->PlayerController) : nullptr;
 	if (!bIsGameMenuUp)
 	{
@@ -201,23 +201,23 @@ void FShooterIngameMenu::ToggleGameMenu()
 		if (PCOwner)
 		{
 			AShooterHUD* const ShooterHUD = PCOwner->GetShooterHUD();
-			if( ShooterHUD != NULL )
+			if (ShooterHUD != NULL)
 			{
-				ShooterHUD->ShowScoreboard( false );
+				ShooterHUD->ShowScoreboard(false);
 			}
 		}
 
 		GEngine->GameViewport->AddViewportWidgetContent(
-			SAssignNew(GameMenuContainer,SWeakWidget)
+			SAssignNew(GameMenuContainer, SWeakWidget)
 			.PossiblyNullContent(GameMenuWidget.ToSharedRef())
-			);
+		);
 
 		int32 const OwnerUserIndex = GetOwnerUserIndex();
-		if(ShooterOptions.IsValid())
+		if (ShooterOptions.IsValid())
 		{
 			ShooterOptions->UpdateOptions();
 		}
-		if(ShooterRecentlyMet.IsValid())
+		if (ShooterRecentlyMet.IsValid())
 		{
 			ShooterRecentlyMet->UpdateRecentlyMet(OwnerUserIndex);
 		}
@@ -234,11 +234,11 @@ void FShooterIngameMenu::ToggleGameMenu()
 				UShooterGameInstance* GameInstance = Cast<UShooterGameInstance>(PlayerOwner->GetGameInstance());
 				GameInstance->SetPresenceForLocalPlayers(FString(TEXT("On Pause")), FVariantData(FString(TEXT("Paused"))));
 			}
-			
+
 			FInputModeGameAndUI InputMode;
 			PCOwner->SetInputMode(InputMode);
 		}
-	} 
+	}
 	else
 	{
 		//Start hiding animation
@@ -256,9 +256,9 @@ void FShooterIngameMenu::ToggleGameMenu()
 
 			// Don't renable controls if the match is over
 			AShooterHUD* const ShooterHUD = PCOwner->GetShooterHUD();
-			if( ( ShooterHUD != NULL ) && ( ShooterHUD->IsMatchOver() == false ) )
+			if ((ShooterHUD != NULL) && (ShooterHUD->IsMatchOver() == false))
 			{
-				PCOwner->SetCinematicMode(false,false,false,true,true);
+				PCOwner->SetCinematicMode(false, false, false, true, true);
 
 				FInputModeGameOnly InputMode;
 				PCOwner->SetInputMode(InputMode);
@@ -284,10 +284,14 @@ void FShooterIngameMenu::OnConfirmExitToMain()
 	}
 }
 
+//++[civ][Gao Jiacheng] not finished
 void FShooterIngameMenu::OnClickFreeDrag()
 {
+	if (false) {
+		APlayerController* const PCOwner = PlayerOwner ? PlayerOwner->PlayerController : nullptr;
+	}
 }
-
+//++[civ]
 
 void FShooterIngameMenu::OnUIQuit()
 {
